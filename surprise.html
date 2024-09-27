@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Surprise</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+            overflow: hidden; /* Pour éviter le défilement lors de la chute des confettis */
+        }
+        .envelope {
+            width: 100px;
+            height: 60px;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        .letter {
+            display: none;
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #fff;
+            border: 1px solid #000;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        .link {
+            cursor: pointer;
+            color: #007BFF;
+            text-decoration: underline;
+        }
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Bienvenue !</h1>
+    <p class="link" onclick="showEnvelope()">Clique ici pour découvrir une surprise !</p>
+    
+    <div class="envelope" id="envelope" onclick="openEnvelope()">
+        <p>Tap sur l'enveloppe pour l'ouvrir</p>
+        <div class="letter" id="letter">
+            <p>dagadegedega oo 🤠 i been married a long time ago 😎 what did you come from 😱 what did you goo! 😔.</p>
+        </div>
+    </div>
+
+    <script>
+        function showEnvelope() {
+            document.getElementById('envelope').style.display = 'flex';
+        }
+
+        function openEnvelope() {
+            document.getElementById('letter').style.display = 'block';
+            dropConfetti();
+        }
+
+        function dropConfetti() {
+            const colors = ['#FF5733', '#33FF57', '#3357FF', '#FF33A1', '#FFC300'];
+            for (let i = 0; i < 100; i++) {
+                createConfetti(colors[Math.floor(Math.random() * colors.length)]);
+            }
+        }
+
+        function createConfetti(color) {
+            const confetti = document.createElement('div');
+            confetti.classList.add('confetti');
+            confetti.style.backgroundColor = color;
+            confetti.style.left = Math.random() * window.innerWidth + 'px';
+            confetti.style.top = '0px';
+            document.body.appendChild(confetti);
+
+            // Animation
+            const fallTime = Math.random() * 3 + 2; // entre 2 et 5 secondes
+            confetti.animate([
+                { transform: 'translateY(0)', opacity: 1 },
+                { transform: 'translateY(' + (window.innerHeight + 10) + 'px)', opacity: 0 }
+            ], {
+                duration: fallTime * 1000,
+                easing: 'ease-in',
+                fill: 'forwards'
+            });
+
+            // Supprime le confetti après l'animation
+            setTimeout(() => {
+                confetti.remove();
+            }, fallTime * 1000);
+        }
+    </script>
+</body>
+</html>
